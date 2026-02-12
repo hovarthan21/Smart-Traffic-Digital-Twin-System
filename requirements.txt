@@ -5,4 +5,5 @@ pandas
 matplotlib
 scikit-learn
 Pillow
+ultralytics
 
