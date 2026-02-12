@@ -20,15 +20,12 @@ class TrafficDigitalTwin:
         }
 
     def generate_traffic(self):
-        # Simulate vehicle arrival
         for road in self.roads:
             self.roads[road] += random.randint(5, 25)
 
     def update_signal(self):
-        # Give green to highest traffic road
         self.signal_state = max(self.roads, key=self.roads.get)
 
-        # Reduce vehicles on green road
         self.roads[self.signal_state] = max(
             0, self.roads[self.signal_state] - random.randint(20, 40)
         )
@@ -62,3 +59,4 @@ class TrafficDigitalTwin:
         }
 
         return data
+
