@@ -24,6 +24,10 @@ This system bridges **Physical Traffic Infrastructure** with a **Digital Twin Mo
 
 It demonstrates how Artificial Intelligence can modernize urban mobility systems.
 
+<p align="center">
+  <img src="smart-traffic logo.avif" width="650" alt="Food Logo" />
+</p>
+
 ---
 
 #  **CORE FEATURES**
