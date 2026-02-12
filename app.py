@@ -18,16 +18,12 @@ option = st.sidebar.selectbox(
     ["Live Camera", "Upload Video", "Digital Twin Simulation"]
 )
 
-
-# ---------------- LOAD YOLOv8 MODEL ---------------- #
 @st.cache_resource
 def load_model():
-    return YOLO("yolov8n.pt")  # nano model (fast)
+    return YOLO("yolov8n.pt") 
 
 model = load_model()
 
-
-# ---------------- VEHICLE DETECTION FUNCTION ---------------- #
 def detect_vehicles(frame):
     results = model(frame)
 
@@ -47,7 +43,6 @@ def detect_vehicles(frame):
 
             class_name = model.names[cls_id]
 
-            # Only count vehicles with good confidence
             if class_name in vehicle_targets and confidence > 0.4:
 
                 formatted_name = class_name.capitalize()
@@ -55,11 +50,9 @@ def detect_vehicles(frame):
 
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
 
-                # Draw bounding box
                 cv2.rectangle(frame, (x1, y1), (x2, y2),
                               (0, 255, 0), 2)
 
-                # Label with confidence
                 label = f"{formatted_name} {confidence:.2f}"
 
                 cv2.putText(frame,
@@ -74,12 +67,6 @@ def detect_vehicles(frame):
 
     return frame, total_vehicles, vehicle_counts
 
-
-
-
-# ============================================================
-# ======================= LIVE CAMERA ========================
-# ============================================================
 if option == "Live Camera":
 
     st.subheader("📷 Live Traffic Monitoring")
@@ -115,7 +102,6 @@ if option == "Live Camera":
 
                 st.markdown("---")
 
-    # Second Row → Environmental Stats
                 col6, col7 = st.columns(2)
 
                 col6.metric("🌫 CO2 Emission (kg)", f"{co2:.2f}")
@@ -123,16 +109,11 @@ if option == "Live Camera":
 
                 st.markdown("---")
 
-    # Third Row → Traffic Intelligence
                 st.info(signal)
                 st.warning(emergency)
 
         cap.release()
 
-
-# ============================================================
-# ======================= UPLOAD VIDEO =======================
-# ============================================================
 elif option == "Upload Video":
 
     st.subheader("📂 Upload Traffic Video")
@@ -172,8 +153,6 @@ elif option == "Upload Video":
                 col5.metric("🏍 Bikes", vehicle_counts["Motorcycle"])
 
                 st.markdown("---")
-
-    # Second Row → Environmental Stats
                 col6, col7 = st.columns(2)
 
                 col6.metric("🌫 CO2 Emission (kg)", f"{co2:.2f}")
@@ -181,7 +160,6 @@ elif option == "Upload Video":
 
                 st.markdown("---")
 
-    # Third Row → Traffic Intelligence
                 st.info(signal)
                 st.warning(emergency)
 
@@ -189,10 +167,6 @@ elif option == "Upload Video":
         cap.release()
         st.success("Video Processing Completed")
 
-
-# ============================================================
-# ================== DIGITAL TWIN SIMULATION =================
-# ============================================================
 elif option == "Digital Twin Simulation":
 
     import plotly.graph_objects as go
@@ -211,40 +185,32 @@ elif option == "Digital Twin Simulation":
 
         for step in range(50):
 
-            # Change signal every 10 steps
             if step % 10 == 0:
                 signal = random.choice(["North", "South", "East", "West"])
 
             vehicles_x = []
             vehicles_y = []
             vehicles_z = []
-
-            # Generate vehicles on each road
             for i in range(15):
 
-                # North road
                 vehicles_x.append(0)
                 vehicles_y.append(random.uniform(5, 20) - step * 0.3)
                 vehicles_z.append(0)
 
-                # South road
                 vehicles_x.append(0)
                 vehicles_y.append(random.uniform(-5, -20) + step * 0.3)
                 vehicles_z.append(0)
 
-                # East road
                 vehicles_x.append(random.uniform(5, 20) - step * 0.3)
                 vehicles_y.append(0)
                 vehicles_z.append(0)
 
-                # West road
                 vehicles_x.append(random.uniform(-5, -20) + step * 0.3)
                 vehicles_y.append(0)
                 vehicles_z.append(0)
 
             fig = go.Figure()
 
-            # Roads
             fig.add_trace(go.Scatter3d(
                 x=[-25, 25],
                 y=[0, 0],
@@ -263,7 +229,6 @@ elif option == "Digital Twin Simulation":
                 name="North-South Road"
             ))
 
-            # Vehicles
             fig.add_trace(go.Scatter3d(
                 x=vehicles_x,
                 y=vehicles_y,
@@ -291,8 +256,6 @@ elif option == "Digital Twin Simulation":
 
         st.success("3D Simulation Completed")
 
-#-----------------------------------------------------
-
 st.markdown(
     """
     <style>
@@ -317,3 +280,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
