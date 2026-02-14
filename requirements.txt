@@ -1,9 +1,9 @@
 streamlit
-opencv-python-headless
+ultralytics==8.2.0
+opencv-python-headless==4.8.1.78
 numpy
 pandas
-matplotlib
-scikit-learn
-Pillow
-ultralytics
-
+plotly
+pillow
+torch==2.1.2
+torchvision==0.16.2
